@@ -1,0 +1,20 @@
+{
+	"geolocation": {
+		"data": {
+			"city": "Jeju City",
+			"country": {
+				"code": "KR",
+				"name": "South Korea"
+			},
+			"subdivision": {
+				"code": "49",
+				"name": "Jeju-do"
+			},
+			"timezone": "Asia/Seoul",
+			"latitude": 33.4955,
+			"longitude": 126.5312,
+			"postalCode": "632"
+		},
+		"timestamp": 1750928735004
+	}
+}
