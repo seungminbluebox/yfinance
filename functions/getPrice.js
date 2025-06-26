@@ -1,21 +1,35 @@
-// functions/getPrice.js
-import yahooFinance from "yahoo-finance2";
+const yahooFinance = require("yahoo-finance2").default;
 
-export async function handler(event) {
-  const symbol = event.queryStringParameters.symbol;
+exports.handler = async function (event, context) {
+  const { symbol } = event.queryStringParameters;
+
   if (!symbol) {
-    return { statusCode: 400, body: "Missing symbol" };
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: "symbol is required" }),
+    };
   }
 
   try {
-    const quote = await yahooFinance.quote(symbol);
+    const result = await yahooFinance.quote(symbol);
+    const data = Array.isArray(result) ? result : [result];
+
+    const prices = {};
+    data.forEach((item) => {
+      prices[item.symbol] = item.regularMarketPrice;
+    });
+
     return {
       statusCode: 200,
-      headers: { "Access-Control-Allow-Origin": "*" },
-      body: JSON.stringify(quote),
+      body: JSON.stringify(prices),
     };
   } catch (err) {
-    console.error("Yahoo Finance Error:", err);
-    return { statusCode: 500, body: "Error fetching price" };
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        error: "Failed to fetch price",
+        details: err.message,
+      }),
+    };
   }
-}
+};
