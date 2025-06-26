@@ -10,12 +10,14 @@ exports.handler = async function (event, context) {
     };
   }
 
+  const symbolList = symbol.split(",").map((s) => s.trim());
+
   try {
-    const result = await yahooFinance.quote(symbol);
-    const data = Array.isArray(result) ? result : [result];
+    const result = await yahooFinance.quote(symbolList);
+    const resultsArray = Array.isArray(result) ? result : [result];
 
     const prices = {};
-    data.forEach((item) => {
+    resultsArray.forEach((item) => {
       prices[item.symbol] = item.regularMarketPrice;
     });
 
