@@ -23,11 +23,18 @@ exports.handler = async function (event, context) {
 
     return {
       statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*", // ✅ 모든 출처 허용
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
       body: JSON.stringify(prices),
     };
   } catch (err) {
     return {
       statusCode: 500,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
       body: JSON.stringify({
         error: "Failed to fetch price",
         details: err.message,
