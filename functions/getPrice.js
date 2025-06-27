@@ -24,7 +24,7 @@ exports.handler = async function (event, context) {
 
     // ✅ 2. 환율 가져오기 (USD → KRW)
     const fx = await yahooFinance.quote("USDKRW=X");
-    prices["USD_KRW"] = fx.regularMarketPrice;
+    prices["USD_KRW"] = Math.round(fx.regularMarketPrice);
 
     // ✅ 3. 응답 반환
     return {
